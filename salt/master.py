@@ -191,6 +191,7 @@ class Master(SMaster):
         controller for the Salt master. This is where any data that needs to
         be cleanly maintained from the master is maintained.
         '''
+        signal.signal(signal.SIGTERM, signal.SIG_DFL)
         jid_root = os.path.join(self.opts['cachedir'], 'jobs')
         search = salt.search.Search(self.opts)
         last = int(time.time())
@@ -503,6 +504,7 @@ class Halite(multiprocessing.Process):
         '''
         Fire up halite!
         '''
+        signal.signal(signal.SIGTERM, signal.SIG_DFL)
         halite.start(self.hopts)
 
 
@@ -519,6 +521,7 @@ class Publisher(multiprocessing.Process):
         '''
         Bind to the interface specified in the configuration file
         '''
+        signal.signal(signal.SIGTERM, signal.SIG_DFL)
         # Set up the context
         context = zmq.Context(1)
         # Prepare minion publish socket
@@ -825,6 +828,7 @@ class MWorker(multiprocessing.Process):
         '''
         Start a Master Worker
         '''
+        signal.signal(signal.SIGTERM, signal.SIG_DFL)
         self.clear_funcs = ClearFuncs(
                 self.opts,
                 self.key,
